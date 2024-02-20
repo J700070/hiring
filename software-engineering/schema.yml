@@ -380,6 +380,10 @@ components:
         case:
           type: integer
           nullable: true
+        latest_inference_result:
+          type: object
+          additionalProperties: {}
+          readOnly: true
         capture_datetime:
           type: string
           format: date-time
@@ -390,6 +394,7 @@ components:
       - capture_datetime
       - file
       - id
+      - latest_inference_result
     ImageRequest:
       type: object
       properties:
