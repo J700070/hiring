@@ -1,0 +1,18 @@
+.customRowClass:hover {
+  background-color: rgba(54, 162, 239, 0.05);
+  cursor: pointer;
+}
+
+.customCellClass {
+  border-top: 1px solid #33353d;
+  padding: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.customTableClass {
+  width: 100%;
+  border-radius: 1rem;
+  border: 2px solid #33353d;
+  padding: 2rem;
+}

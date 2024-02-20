@@ -2,12 +2,14 @@ import {
   EuiBasicTable,
   EuiBasicTableColumn,
   EuiButton,
+  EuiLink,
   EuiPageTemplate,
   EuiTableFieldDataColumnType,
 } from "@elastic/eui";
 import { caseClient, LoaderData } from "../utils";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Case } from "../api/generated";
+import "./Dashboard.css";
 
 interface DashboardProps {
   cases: Case[];
@@ -23,22 +25,30 @@ export function Dashboard() {
       field: "id",
       name: "Id",
       sortable: true,
-      render: (id: number) => (
-        <EuiButton
-          color="primary"
-          onClick={() => {
-            navigate(`/case/${id}`);
-          }}
-        >
-          {id}
-        </EuiButton>
-      ),
+      truncateText: true,
+      render: (id: number) => <>#{id}</>,
+      mobileOptions: {
+        header: false,
+      },
+    },
+    {
+      field: "images",
+      name: "Number of Images",
+      sortable: true,
+      dataType: "number",
+      mobileOptions: {
+        header: false,
+      },
+      render: (image: Array<Number>) => image.length,
     },
     {
       field: "open_datetime",
       name: "Open date",
       sortable: true,
       dataType: "date",
+      mobileOptions: {
+        header: false,
+      },
       render: (open_datetime: string) =>
         new Date(open_datetime).toLocaleString(),
     },
@@ -47,6 +57,9 @@ export function Dashboard() {
       name: "Close date",
       sortable: true,
       dataType: "date",
+      mobileOptions: {
+        header: false,
+      },
       render: (close_datetime: string) =>
         close_datetime ? new Date(close_datetime).toLocaleString() : "Open",
     },
@@ -99,13 +112,14 @@ export function Dashboard() {
       />
       <EuiPageTemplate.Section>
         <EuiBasicTable
-          tableCaption="All cases"
+          noItemsMessage={"No cases found. Create a new case to get started."}
           items={cases}
           columns={columns}
           rowHeader="id"
           rowProps={getRowProps}
           cellProps={getCellProps}
-          responsive={true}
+          tableLayout="auto"
+          className="customTableClass"
         />
       </EuiPageTemplate.Section>
     </EuiPageTemplate>
