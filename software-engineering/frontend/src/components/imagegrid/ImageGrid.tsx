@@ -4,6 +4,8 @@ import {
   EuiFlexGrid,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiIcon,
+  EuiSpacer,
   useIsWithinBreakpoints,
 } from "@elastic/eui";
 import { ImageGridPagination } from "./ImageGridPagination";
@@ -85,6 +87,53 @@ export function ImageGrid() {
                   textAlign="left"
                   image={<img src={image.file} alt="" height={200} />}
                   title=""
+                  description={
+                    <EuiFlexGroup
+                      gutterSize="s"
+                      style={{
+                        gap: "10px",
+                        paddingLeft: "2px",
+                        paddingRight: "2px",
+                        marginTop: "-12px",
+                      }}
+                      alignItems="center"
+                      justifyContent="spaceBetween"
+                    >
+                      {/* align items center  */}
+                      <EuiFlexItem grow={false}>
+                        {image.latest_inference_result?.anomaly_detected ? (
+                          <span
+                            style={{
+                              display: "flex",
+                              alignItems: "left",
+                              gap: "5px",
+                            }}
+                          >
+                            <EuiIcon type="warning" />
+                            {(
+                              parseFloat(
+                                image.latest_inference_result.confidence,
+                              ) * 100
+                            ).toFixed(0)}
+                            %
+                          </span>
+                        ) : (
+                          <EuiIcon type="check" />
+                        )}
+                      </EuiFlexItem>
+                      <EuiFlexItem grow={false}>
+                        {image.latest_inference_result?.anomaly_detected
+                          ? image.latest_inference_result?.anomalies
+                              .map(
+                                (word: string) =>
+                                  word.charAt(0).toUpperCase() +
+                                  word.slice(1).toLowerCase(),
+                              )
+                              .join(" - ")
+                          : "No anomalies detected"}
+                      </EuiFlexItem>
+                    </EuiFlexGroup>
+                  }
                   selectable={{
                     onClick: () => cardClicked(image.id),
                     isSelected:
